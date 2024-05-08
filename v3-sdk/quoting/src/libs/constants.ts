@@ -5,23 +5,23 @@ import { Token } from '@uniswap/sdk-core'
 // Addresses
 
 export const POOL_FACTORY_CONTRACT_ADDRESS =
-  '0x1F98431c8aD98523631AE4a59f267346ea31F984'
+  '0x33128a8fC17869897dcE68Ed026d694621f6FDfD'
 export const QUOTER_CONTRACT_ADDRESS =
-  '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6'
+  '0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a'
 
 // Currencies and Tokens
 
 export const WETH_TOKEN = new Token(
-  1,
-  '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+  8453,
+  '0x4200000000000000000000000000000000000006',
   18,
   'WETH',
   'Wrapped Ether'
 )
 
 export const USDC_TOKEN = new Token(
-  1,
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+  8453,
+  '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
   6,
   'USDC',
   'USD//C'
