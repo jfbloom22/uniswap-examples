@@ -18,7 +18,7 @@ export async function quote(): Promise<string> {
   )
   const poolConstants = await getPoolConstants()
 
-  const quotedAmountOut = await quoterContract.quoteExactInputSingle(
+  const quotedAmountOut = await quoterContract.quoteExactInputSingle.staticCall(
     CurrentConfig.tokens.in.address,
     CurrentConfig.tokens.out.address,
     poolConstants.fee,

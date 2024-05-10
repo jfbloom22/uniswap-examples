@@ -7,7 +7,11 @@ const Example = () => {
   const [outputAmount, setOutputAmount] = useState<string>()
 
   const onQuote = useCallback(async () => {
-    setOutputAmount(await quote())
+    try {
+      setOutputAmount(await quote())
+    } catch (error) {
+      console.error(error)
+    }
   }, [])
 
   return (
