@@ -18,6 +18,7 @@ export async function quote(): Promise<string> {
   )
   const poolConstants = await getPoolConstants()
 
+  console.log('about to quote')
   const quotedAmountOut = await quoterContract.quoteExactInputSingle.staticCall(
     CurrentConfig.tokens.in.address,
     CurrentConfig.tokens.out.address,
@@ -28,7 +29,7 @@ export async function quote(): Promise<string> {
     ).toString(),
     0
   );
-
+      console.log('quoted', quotedAmountOut)
   return toReadableAmount(quotedAmountOut, CurrentConfig.tokens.out.decimals)
 }
 
