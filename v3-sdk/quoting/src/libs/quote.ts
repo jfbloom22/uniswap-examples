@@ -11,6 +11,7 @@ import { getProvider } from '../libs/providers'
 import { toReadableAmount, fromReadableAmount } from '../libs/conversion'
 
 export async function quote(): Promise<string> {
+  console.log('about to prep quote')
   const quoterContract = new ethers.Contract(
     QUOTER_CONTRACT_ADDRESS,
     Quoter.abi,
@@ -19,17 +20,20 @@ export async function quote(): Promise<string> {
   const poolConstants = await getPoolConstants()
 
   console.log('about to quote')
-  const quotedAmountOut = await quoterContract.quoteExactInputSingle.staticCall(
-    CurrentConfig.tokens.in.address,
-    CurrentConfig.tokens.out.address,
-    poolConstants.fee,
-    fromReadableAmount(
+  const params = {
+    tokenIn: CurrentConfig.tokens.in.address,
+    tokenOut: CurrentConfig.tokens.out.address,
+    amountIn: fromReadableAmount(
       CurrentConfig.tokens.amountIn,
       CurrentConfig.tokens.in.decimals
     ).toString(),
-    0
-  );
-      console.log('quoted', quotedAmountOut)
+    fee: poolConstants.fee,
+    sqrtPriceLimitX96: 0,
+  }
+  const quotedAmountOut = await quoterContract.quoteExactInputSingle.staticCall(
+    params
+  )
+  console.log('quoted', quotedAmountOut)
   return toReadableAmount(quotedAmountOut, CurrentConfig.tokens.out.decimals)
 }
 
