@@ -1,7 +1,8 @@
-import { ethers } from 'ethers'
+import { InterfaceAbi, ethers } from 'ethers'
 import { CurrentConfig } from '../config'
 import { computePoolAddress } from '@uniswap/v3-sdk'
-import Quoter from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
+import quoterAbi from './../quoter-abi.json'
+// import Quoter from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json'
 import IUniswapV3PoolABI from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
 import {
   POOL_FACTORY_CONTRACT_ADDRESS,
@@ -14,7 +15,7 @@ export async function quote(): Promise<string> {
   console.log('about to prep quote')
   const quoterContract = new ethers.Contract(
     QUOTER_CONTRACT_ADDRESS,
-    Quoter.abi,
+    quoterAbi as unknown as InterfaceAbi,
     getProvider()
   )
   const poolConstants = await getPoolConstants()
@@ -27,14 +28,18 @@ export async function quote(): Promise<string> {
       CurrentConfig.tokens.amountIn,
       CurrentConfig.tokens.in.decimals
     ).toString(),
+    // amountIn: fromReadableAmount(
+    //   CurrentConfig.tokens.amountIn,
+    //   CurrentConfig.tokens.in.decimals
+    // ).toString(),
     fee: poolConstants.fee,
     sqrtPriceLimitX96: 0,
   }
   const quotedAmountOut = await quoterContract.quoteExactInputSingle.staticCall(
     params
   )
-  console.log('quoted', quotedAmountOut)
-  return toReadableAmount(quotedAmountOut, CurrentConfig.tokens.out.decimals)
+  console.log('quoted', quotedAmountOut[0])
+  return toReadableAmount(quotedAmountOut[0], CurrentConfig.tokens.out.decimals)
 }
 
 async function getPoolConstants(): Promise<{
