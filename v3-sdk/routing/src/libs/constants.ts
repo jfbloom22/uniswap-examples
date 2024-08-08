@@ -1,26 +1,26 @@
 // This file stores web3 related constants such as addresses, token definitions, ETH currency references and ABI's
 
-import { SupportedChainId, Token } from '@uniswap/sdk-core'
+import { Token } from '@uniswap/sdk-core'
 
 // Addresses
 
 export const V3_SWAP_ROUTER_ADDRESS =
-  '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45'
+  '0x2626664c2603336E57B271c5C0b26F421741e481'
 export const WETH_CONTRACT_ADDRESS =
-  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+  '0x4200000000000000000000000000000000000006'
 
 // Currencies and Tokens
 
 export const USDC_TOKEN = new Token(
-  SupportedChainId.MAINNET,
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+  8453,
+  '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
   6,
   'USDC',
   'USD//C'
 )
 
 export const DAI_TOKEN = new Token(
-  SupportedChainId.MAINNET,
+  8453,
   '0x6B175474E89094C44Da98b954EedeAC495271d0F',
   18,
   'DAI',
@@ -28,8 +28,8 @@ export const DAI_TOKEN = new Token(
 )
 
 export const WETH_TOKEN = new Token(
-  SupportedChainId.MAINNET,
-  '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+  8453,
+  WETH_CONTRACT_ADDRESS,
   18,
   'WETH',
   'Wrapped Ether'

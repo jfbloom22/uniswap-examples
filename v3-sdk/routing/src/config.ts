@@ -33,7 +33,8 @@ export const CurrentConfig: ExampleConfig = {
   rpc: {
     local: 'http://localhost:8545',
     mainnet:
-      'https://mainnet.chainnodes.org/42e88809-380e-4bcb-8b89-f58ea28dfca0',
+      // 'https://mainnet.chainnodes.org/42e88809-380e-4bcb-8b89-f58ea28dfca0',
+      'https://young-falling-butterfly.base-mainnet.quiknode.pro/c81887313cb2b18408815167691df55a36fad9e5',
   },
   wallet: {
     address: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',

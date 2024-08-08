@@ -1,11 +1,12 @@
 import {
   AlphaRouter,
-  ChainId,
   SwapOptionsSwapRouter02,
   SwapRoute,
   SwapType,
 } from '@uniswap/smart-order-router'
-import { TradeType, CurrencyAmount, Percent, Token } from '@uniswap/sdk-core'
+import {
+  TradeType, CurrencyAmount, Percent, Token,
+} from '@uniswap/sdk-core'
 import { CurrentConfig } from '../config'
 import {
   getMainnetProvider,
@@ -25,32 +26,37 @@ import { fromReadableAmount } from './conversion'
 import { ethers } from 'ethers'
 
 export async function generateRoute(): Promise<SwapRoute | null> {
-  const router = new AlphaRouter({
-    chainId: ChainId.MAINNET,
-    provider: getMainnetProvider(),
-  })
+  try {
+    const router = new AlphaRouter({
+      chainId: 8453,
+      provider: getMainnetProvider(),
+    })
 
-  const options: SwapOptionsSwapRouter02 = {
-    recipient: CurrentConfig.wallet.address,
-    slippageTolerance: new Percent(50, 10_000),
-    deadline: Math.floor(Date.now() / 1000 + 1800),
-    type: SwapType.SWAP_ROUTER_02,
+    const options: SwapOptionsSwapRouter02 = {
+      recipient: CurrentConfig.wallet.address,
+      slippageTolerance: new Percent(50, 10_000),
+      deadline: Math.floor(Date.now() / 1000 + 1800),
+      type: SwapType.SWAP_ROUTER_02,
+    }
+
+    const route = await router.route(
+      CurrencyAmount.fromRawAmount(
+        CurrentConfig.tokens.in,
+        fromReadableAmount(
+          CurrentConfig.tokens.amountIn,
+          CurrentConfig.tokens.in.decimals
+        ).toString()
+      ),
+      CurrentConfig.tokens.out,
+      TradeType.EXACT_INPUT,
+      options
+    )
+
+    return route
+  } catch (error) {
+    console.error('Failed to generate route:', error)
+    return null
   }
-
-  const route = await router.route(
-    CurrencyAmount.fromRawAmount(
-      CurrentConfig.tokens.in,
-      fromReadableAmount(
-        CurrentConfig.tokens.amountIn,
-        CurrentConfig.tokens.in.decimals
-      ).toString()
-    ),
-    CurrentConfig.tokens.out,
-    TradeType.EXACT_INPUT,
-    options
-  )
-
-  return route
 }
 
 export async function executeRoute(
