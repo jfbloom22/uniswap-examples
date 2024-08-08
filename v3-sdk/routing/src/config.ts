@@ -1,5 +1,5 @@
 import { Token } from '@uniswap/sdk-core'
-import { WETH_TOKEN, USDC_TOKEN } from './libs/constants'
+import { WETH_TOKEN, USDC_TOKEN } from './libs/constants.js'
 
 // Sets if the example should run locally or on chain
 export enum Environment {

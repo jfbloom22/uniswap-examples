@@ -6,29 +6,30 @@ import {
 } from '@uniswap/smart-order-router'
 import {
   TradeType, CurrencyAmount, Percent, Token,
+  ChainId,
 } from '@uniswap/sdk-core'
-import { CurrentConfig } from '../config'
+import { CurrentConfig } from '../config.js'
 import {
   getMainnetProvider,
   getWalletAddress,
   sendTransaction,
   TransactionState,
   getProvider,
-} from './providers'
+} from './providers.js'
 import {
   MAX_FEE_PER_GAS,
   MAX_PRIORITY_FEE_PER_GAS,
   ERC20_ABI,
   TOKEN_AMOUNT_TO_APPROVE_FOR_TRANSFER,
   V3_SWAP_ROUTER_ADDRESS,
-} from './constants'
-import { fromReadableAmount } from './conversion'
+} from './constants.js'
+import { fromReadableAmount } from './conversion.js'
 import { ethers } from 'ethers'
 
 export async function generateRoute(): Promise<SwapRoute | null> {
   try {
     const router = new AlphaRouter({
-      chainId: 8453,
+      chainId: ChainId.BASE,
       provider: getMainnetProvider(),
     })
 

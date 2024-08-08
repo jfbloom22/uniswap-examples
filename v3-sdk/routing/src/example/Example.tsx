@@ -9,7 +9,6 @@ import {
   TransactionState,
 } from '../libs/providers'
 import { executeRoute, generateRoute } from '../libs/routing'
-import { SwapRoute } from '@uniswap/smart-order-router'
 
 const useOnBlockUpdated = (callback: (blockNumber: number) => void) => {
   useEffect(() => {
@@ -25,8 +24,8 @@ const Example = () => {
   const [tokenOutBalance, setTokenOutBalance] = useState<string>()
   const [txState, setTxState] = useState<TransactionState>(TransactionState.New)
   const [blockNumber, setBlockNumber] = useState<number>(0)
+  const [route, setRoute] = useState<unknown>(null)
 
-  const [route, setRoute] = useState<SwapRoute | null>(null)
 
   // Listen for new blocks and update the wallet
   useOnBlockUpdated(async (blockNumber: number) => {
@@ -62,13 +61,6 @@ const Example = () => {
     setRoute(await generateRoute())
   }, [])
 
-  const executeSwap = useCallback(async (route: SwapRoute | null) => {
-    if (!route) {
-      return
-    }
-    setTxState(TransactionState.Sending)
-    setTxState(await executeRoute(route))
-  }, [])
 
   return (
     <div className="App">
@@ -99,35 +91,7 @@ const Example = () => {
         }>
         <p>Create Route</p>
       </button>
-      <h3>
-        {route &&
-          `Route: ${CurrentConfig.tokens.amountIn} ${
-            CurrentConfig.tokens.in.symbol
-          } to ${route.quote.toExact()} ${
-            route.quote.currency.symbol
-          } using $${route.estimatedGasUsedUSD.toExact()} worth of gas`}
-      </h3>
-      <h3>
-        {route &&
-          route.route
-            .map((r) => r.tokenPath.map((t) => t.symbol).join(' -> '))
-            .join(', ')}
-      </h3>
-      <button
-        onClick={() => wrapETH(100)}
-        disabled={getProvider() === null || CurrentConfig.rpc.mainnet === ''}>
-        <p>Wrap ETH</p>
-      </button>
-      <button
-        onClick={() => executeSwap(route)}
-        disabled={
-          txState === TransactionState.Sending ||
-          getProvider() === null ||
-          CurrentConfig.rpc.mainnet === '' ||
-          route === null
-        }>
-        <p>Swap Using Route</p>
-      </button>
+    
     </div>
   )
 }
