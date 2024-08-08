@@ -28,6 +28,7 @@ import { ethers } from 'ethers'
 
 export async function generateRoute(): Promise<SwapRoute | null> {
   try {
+    console.log('generating route')
     const router = new AlphaRouter({
       chainId: ChainId.BASE,
       provider: getMainnetProvider(),
@@ -52,7 +53,7 @@ export async function generateRoute(): Promise<SwapRoute | null> {
       TradeType.EXACT_INPUT,
       options
     )
-
+    console.log('route success', route)
     return route
   } catch (error) {
     console.error('Failed to generate route:', error)
