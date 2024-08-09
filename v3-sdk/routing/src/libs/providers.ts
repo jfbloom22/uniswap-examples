@@ -4,7 +4,7 @@ import { BaseProvider } from '@ethersproject/providers'
 
 // Single copies of provider and wallet
 const mainnetProvider = new ethers.providers.JsonRpcProvider(
-  CurrentConfig.rpc.mainnet
+  CurrentConfig.rpc.local
 )
 const wallet = createWallet()
 

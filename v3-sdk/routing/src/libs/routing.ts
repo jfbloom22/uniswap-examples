@@ -53,7 +53,7 @@ export async function generateRoute(): Promise<SwapRoute | null> {
       TradeType.EXACT_INPUT,
       options
     )
-    console.log('route success', route)
+    console.log('route success', route?.quote)
     return route
   } catch (error) {
     console.error('Failed to generate route:', error)
